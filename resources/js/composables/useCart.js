@@ -49,7 +49,14 @@ export function useCart() {
     };
 
     const dispatchCartUpdate = () => {
-        window.dispatchEvent(new Event('cartUpdated'));
+        // Debounce cart updates to avoid too many events
+        if (window.cartUpdateTimeout) {
+            clearTimeout(window.cartUpdateTimeout);
+        }
+        window.cartUpdateTimeout = setTimeout(() => {
+            window.dispatchEvent(new Event('cartUpdated'));
+            window.cartUpdateTimeout = null;
+        }, 50);
     };
 
     const cartItemCount = computed(() => {

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useCart } from '../composables/useCart';
 
 export default {
@@ -91,11 +91,6 @@ export default {
 
         const deliveryPrice = computed(() => {
             return cartTotal.value >= 100 ? 0 : 10;
-        });
-
-        onMounted(() => {
-            // Update cart count in header
-            window.dispatchEvent(new Event('cartUpdated'));
         });
 
         return {

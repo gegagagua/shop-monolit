@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -139,17 +139,30 @@ export default {
             }
         };
 
+        const handleCartUpdate = () => {
+            updateCartCount();
+        };
+
         onMounted(() => {
             checkAuth();
             updateCartCount();
             
             // Listen for cart updates
-            window.addEventListener('cartUpdated', updateCartCount);
+            window.addEventListener('cartUpdated', handleCartUpdate);
         });
 
-        // Update cart count when component is active
-        router.afterEach(() => {
-            updateCartCount();
+        // Cleanup event listener on unmount
+        onUnmounted(() => {
+            window.removeEventListener('cartUpdated', handleCartUpdate);
+        });
+
+        // Update cart count when route changes (but only once)
+        let lastRoutePath = '';
+        router.afterEach((to) => {
+            if (to.path !== lastRoutePath) {
+                lastRoutePath = to.path;
+                updateCartCount();
+            }
         });
 
         return {

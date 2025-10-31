@@ -21,11 +21,16 @@ const categories = [
     'ხელსაწყოების შესანახი'
 ];
 
-// Helper function to get random image from Unsplash
+// Helper function to get random image - using placeholder service instead of Unsplash to avoid multiple calls
 const getRandomImage = (searchTerm, seed) => {
-    const seeds = ['tools', 'drill', 'wrench', 'hammer', 'saw', 'screwdriver', 'measure', 'light', 'safety', 'pump'];
-    const term = searchTerm || seeds[seed % seeds.length];
-    return `https://source.unsplash.com/400x400/?${term}&sig=${seed}`;
+    // Using placeholder.com with deterministic seed to avoid network calls
+    const imageIds = [
+        101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+        111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+        121, 122, 123, 124, 125, 126, 127, 128, 129, 130
+    ];
+    const imageId = imageIds[seed % imageIds.length];
+    return `https://picsum.photos/seed/${imageId}/400/400`;
 };
 
 // Mock products data with tool categories

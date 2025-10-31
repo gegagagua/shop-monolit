@@ -173,8 +173,12 @@ export default {
         });
 
         const selectCategory = (category) => {
-            filters.value.category = category;
-            currentPage.value = 1;
+            if (filters.value.category !== category) {
+                filters.value.category = category;
+                currentPage.value = 1;
+                // Update URL without navigation
+                router.replace({ query: { ...route.query, category } });
+            }
         };
 
         const resetFilters = () => {
@@ -224,13 +228,23 @@ export default {
         };
 
         const handleImageError = (event) => {
-            // Fallback to placeholder if image fails to load
-            event.target.src = `https://via.placeholder.com/400x400?text=${encodeURIComponent(event.target.alt)}`;
+            // Fallback to placeholder if image fails to load (only set once to avoid loops)
+            if (!event.target.dataset.fallbackSet) {
+                event.target.dataset.fallbackSet = 'true';
+                event.target.src = `https://via.placeholder.com/400x400?text=${encodeURIComponent(event.target.alt || 'Product')}`;
+            }
         };
 
-        // Watch for filter changes and reset to page 1
+        // Watch for filter changes and reset to page 1 (with debounce to avoid loops)
+        let filterWatchTimeout = null;
         watch(filters, () => {
-            currentPage.value = 1;
+            if (filterWatchTimeout) {
+                clearTimeout(filterWatchTimeout);
+            }
+            filterWatchTimeout = setTimeout(() => {
+                currentPage.value = 1;
+                filterWatchTimeout = null;
+            }, 100);
         }, { deep: true });
 
         onMounted(() => {

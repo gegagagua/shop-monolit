@@ -210,8 +210,11 @@ export default {
         };
 
         const handleImageError = (event) => {
-            // Fallback to placeholder if image fails to load
-            event.target.src = `https://via.placeholder.com/400x400?text=${encodeURIComponent(event.target.alt)}`;
+            // Fallback to placeholder if image fails to load (only set once to avoid loops)
+            if (!event.target.dataset.fallbackSet) {
+                event.target.dataset.fallbackSet = 'true';
+                event.target.src = `https://via.placeholder.com/400x400?text=${encodeURIComponent(event.target.alt || 'Product')}`;
+            }
         };
 
         onMounted(() => {
