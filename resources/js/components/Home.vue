@@ -11,10 +11,10 @@
                 <div class="carousel-item active">
                     <div class="carousel-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 500px; display: flex; align-items: center; justify-content: center;">
                         <div class="text-white text-center px-4">
-                            <h1 class="display-3 fw-bold mb-4">შემოდით მაღაზიაში</h1>
-                            <p class="lead fs-4 mb-4">თქვენი სანდო პარტნიორი ხარისხიანი ხელსაწყოებისთვის</p>
+                            <h1 class="display-3 fw-bold mb-4">{{ t('welcomeToShop') }}</h1>
+                            <p class="lead fs-4 mb-4">{{ t('trustedPartner') }}</p>
                             <router-link to="/products" class="btn btn-light btn-lg px-5">
-                                <i class="bi bi-arrow-right"></i> პროდუქციის ნახვა
+                                <i class="bi bi-arrow-right"></i> {{ t('viewProducts') }}
                             </router-link>
                         </div>
                     </div>
@@ -22,10 +22,10 @@
                 <div class="carousel-item">
                     <div class="carousel-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 500px; display: flex; align-items: center; justify-content: center;">
                         <div class="text-white text-center px-4">
-                            <h1 class="display-3 fw-bold mb-4">სპეციალური შეთავაზებები</h1>
-                            <p class="lead fs-4 mb-4">დიდი ფასდაკლებები ყველა პროდუქტზე</p>
+                            <h1 class="display-3 fw-bold mb-4">{{ t('specialOffers') }}</h1>
+                            <p class="lead fs-4 mb-4">{{ t('bigDiscounts') }}</p>
                             <router-link to="/products" class="btn btn-light btn-lg px-5">
-                                <i class="bi bi-tag"></i> შეთავაზებების ნახვა
+                                <i class="bi bi-tag"></i> {{ t('viewOffers') }}
                             </router-link>
                         </div>
                     </div>
@@ -33,10 +33,10 @@
                 <div class="carousel-item">
                     <div class="carousel-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); height: 500px; display: flex; align-items: center; justify-content: center;">
                         <div class="text-white text-center px-4">
-                            <h1 class="display-3 fw-bold mb-4">გაწეული მიწოდება</h1>
-                            <p class="lead fs-4 mb-4">უფასო მიწოდება 150₾-ზე მეტ შეკვეთებზე</p>
+                            <h1 class="display-3 fw-bold mb-4">{{ t('fastDelivery') }}</h1>
+                            <p class="lead fs-4 mb-4">{{ t('freeDeliveryText') }}</p>
                             <router-link to="/products" class="btn btn-light btn-lg px-5">
-                                <i class="bi bi-truck"></i> დაწყება
+                                <i class="bi bi-truck"></i> {{ t('getStarted') }}
                             </router-link>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
             <!-- Categories Section -->
             <section class="mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold">კატეგორიები</h2>
-                    <router-link to="/products" class="text-decoration-none">ყველას ნახვა <i class="bi bi-arrow-right"></i></router-link>
+                    <h2 class="fw-bold">{{ t('categories') }}</h2>
+                    <router-link to="/products" class="text-decoration-none">{{ t('viewAll') }} <i class="bi bi-arrow-right"></i></router-link>
                 </div>
                 <div class="row g-4">
                     <div v-for="(category, index) in displayCategories" :key="category" class="col-lg-2 col-md-3 col-sm-4 col-6">
@@ -74,8 +74,8 @@
             <!-- Featured Products -->
             <section class="mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold">რეკომენდებული პროდუქტები</h2>
-                    <router-link to="/products" class="text-decoration-none">ყველას ნახვა <i class="bi bi-arrow-right"></i></router-link>
+                    <h2 class="fw-bold">{{ t('featuredProducts') }}</h2>
+                    <router-link to="/products" class="text-decoration-none">{{ t('viewAll') }} <i class="bi bi-arrow-right"></i></router-link>
                 </div>
                 <div class="row g-4">
                     <div v-for="product in featuredProducts" :key="product.id" class="col-lg-3 col-md-4 col-sm-6">
@@ -85,7 +85,7 @@
                                      style="height: 250px; object-fit: cover;" 
                                      @error="handleImageError($event)">
                                 <span v-if="product.featured" class="badge bg-danger position-absolute top-0 end-0 m-2">
-                                    <i class="bi bi-star-fill"></i> რეკომენდებული
+                                    <i class="bi bi-star-fill"></i> {{ t('recommended') }}
                                 </span>
                             </div>
                             <div class="card-body d-flex flex-column p-3">
@@ -102,7 +102,7 @@
                                 <div class="mt-auto">
                                     <p class="fs-5 fw-bold text-primary mb-2">{{ product.price }}₾</p>
                                     <button @click="addToCart(product)" class="btn btn-primary w-100">
-                                        <i class="bi bi-cart-plus"></i> კალათაში
+                                        <i class="bi bi-cart-plus"></i> {{ t('addToCart') }}
                                     </button>
                                 </div>
                             </div>
@@ -114,8 +114,8 @@
             <!-- Top Selling Products -->
             <section class="mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold">ტოპ გაყიდვები</h2>
-                    <router-link to="/products" class="text-decoration-none">ყველას ნახვა <i class="bi bi-arrow-right"></i></router-link>
+                    <h2 class="fw-bold">{{ t('topSales') }}</h2>
+                    <router-link to="/products" class="text-decoration-none">{{ t('viewAll') }} <i class="bi bi-arrow-right"></i></router-link>
                 </div>
                 <div class="row g-4">
                     <div v-for="product in topProducts" :key="product.id" class="col-lg-3 col-md-4 col-sm-6">
@@ -125,7 +125,7 @@
                                      style="height: 250px; object-fit: cover;"
                                      @error="handleImageError($event)">
                                 <span class="badge bg-success position-absolute top-0 start-0 m-2">
-                                    <i class="bi bi-trophy-fill"></i> ტოპ გაყიდვა
+                                    <i class="bi bi-trophy-fill"></i> {{ t('topSeller') }}
                                 </span>
                             </div>
                             <div class="card-body d-flex flex-column p-3">
@@ -137,12 +137,12 @@
                                     <span class="text-warning">
                                         <i v-for="n in 5" :key="n" :class="n <= product.rating ? 'bi bi-star-fill' : 'bi bi-star'"></i>
                                     </span>
-                                    <small class="text-muted ms-2">გაყიდული: {{ product.sales }}</small>
+                                    <small class="text-muted ms-2">{{ t('sold') }}: {{ product.sales }}</small>
                                 </div>
                                 <div class="mt-auto">
                                     <p class="fs-5 fw-bold text-primary mb-2">{{ product.price }}₾</p>
                                     <button @click="addToCart(product)" class="btn btn-primary w-100">
-                                        <i class="bi bi-cart-plus"></i> კალათაში
+                                        <i class="bi bi-cart-plus"></i> {{ t('addToCart') }}
                                     </button>
                                 </div>
                             </div>
@@ -159,11 +159,13 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProducts } from '../composables/useProducts';
 import { useCart } from '../composables/useCart';
+import { useI18n } from '../composables/useI18n';
 
 export default {
     name: 'Home',
     setup() {
         const router = useRouter();
+        const { t } = useI18n();
         const { categoriesList, getFeaturedProducts, getTopSellingProducts } = useProducts();
         const { addToCart: addToCartItem } = useCart();
 
@@ -206,7 +208,7 @@ export default {
         const addToCart = (product) => {
             addToCartItem(product);
             // Show toast notification
-            alert(`${product.name} დაემატა კალათაში!`);
+            alert(`${product.name} ${t('addedToCart')}`);
         };
 
         const handleImageError = (event) => {
@@ -222,6 +224,7 @@ export default {
         });
 
         return {
+            t,
             categories,
             displayCategories,
             featuredProducts,

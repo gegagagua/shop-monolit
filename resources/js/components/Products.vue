@@ -5,18 +5,18 @@
             <div class="col-lg-3 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-funnel"></i> ფილტრები</h5>
+                        <h5 class="mb-0"><i class="bi bi-funnel"></i> {{ t('filters') }}</h5>
                     </div>
                     <div class="card-body">
                         <!-- Search -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">ძიება</label>
-                            <input v-model="filters.search" type="text" class="form-control" placeholder="პროდუქტის სახელი...">
+                            <label class="form-label fw-semibold">{{ t('search') }}</label>
+                            <input v-model="filters.search" type="text" class="form-control" :placeholder="t('searchProductName')">
                         </div>
 
                         <!-- Categories List -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold mb-3">კატეგორიები</label>
+                            <label class="form-label fw-semibold mb-3">{{ t('categories') }}</label>
                             <div class="list-group list-group-flush">
                                 <a 
                                     v-for="cat in categoriesList" 
@@ -34,20 +34,20 @@
 
                         <!-- Price Range -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">ფასის დიაპაზონი</label>
+                            <label class="form-label fw-semibold">{{ t('priceRange') }}</label>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <input v-model.number="filters.minPrice" type="number" class="form-control form-control-sm" placeholder="მინ" min="0">
+                                    <input v-model.number="filters.minPrice" type="number" class="form-control form-control-sm" :placeholder="t('min')" min="0">
                                 </div>
                                 <div class="col-6">
-                                    <input v-model.number="filters.maxPrice" type="number" class="form-control form-control-sm" placeholder="მაქს" min="0">
+                                    <input v-model.number="filters.maxPrice" type="number" class="form-control form-control-sm" :placeholder="t('max')" min="0">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Reset Filters -->
                         <button @click="resetFilters" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-arrow-clockwise"></i> ფილტრების გასუფთავება
+                            <i class="bi bi-arrow-clockwise"></i> {{ t('resetFilters') }}
                         </button>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
             <!-- Products Grid -->
             <div class="col-lg-9">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>პროდუქცია</h2>
-                    <span class="text-muted">ნაპოვნია: {{ filteredProducts.length }} პროდუქტი</span>
+                    <h2>{{ t('products') }}</h2>
+                    <span class="text-muted">{{ t('found') }}: {{ filteredProducts.length }} {{ filteredProducts.length === 1 ? t('product') : t('products') }}</span>
                 </div>
 
                 <!-- Loading State -->
@@ -90,7 +90,7 @@
                                 <div class="mt-auto">
                                     <p class="fs-5 fw-bold text-primary mb-2">{{ product.price }}₾</p>
                                     <button @click="addToCart(product)" class="btn btn-primary w-100">
-                                        <i class="bi bi-cart-plus"></i> კალათაში
+                                        <i class="bi bi-cart-plus"></i> {{ t('addToCart') }}
                                     </button>
                                 </div>
                             </div>
@@ -102,13 +102,13 @@
                 <nav v-if="totalPages > 1" aria-label="Products pagination">
                     <ul class="pagination justify-content-center">
                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">წინა</a>
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">{{ t('previous') }}</a>
                         </li>
                         <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
                             <a class="page-link" href="#" @click.prevent="goToPage(page)">{{ page }}</a>
                         </li>
                         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">შემდეგი</a>
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">{{ t('next') }}</a>
                         </li>
                     </ul>
                 </nav>
@@ -122,12 +122,14 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProducts } from '../composables/useProducts';
 import { useCart } from '../composables/useCart';
+import { useI18n } from '../composables/useI18n';
 
 export default {
     name: 'Products',
     setup() {
         const route = useRoute();
         const router = useRouter();
+        const { t } = useI18n();
         const { categoriesList, filterProducts } = useProducts();
         const { addToCart: addToCartItem } = useCart();
 
@@ -224,7 +226,7 @@ export default {
 
         const addToCart = (product) => {
             addToCartItem(product);
-            alert(`${product.name} დაემატა კალათაში!`);
+            alert(`${product.name} ${t('addedToCart')}`);
         };
 
         const handleImageError = (event) => {
@@ -257,6 +259,7 @@ export default {
         });
 
         return {
+            t,
             loading,
             filters,
             categoriesList,

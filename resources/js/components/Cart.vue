@@ -1,13 +1,13 @@
 <template>
     <div class="container py-5">
-        <h1 class="mb-4">კალათა</h1>
+        <h1 class="mb-4">{{ t('cart') }}</h1>
         
         <div v-if="cart.length === 0" class="text-center py-5">
             <i class="bi bi-cart-x fs-1 text-muted mb-3"></i>
-            <h3>კალათა ცარიელია</h3>
-            <p class="text-muted mb-4">დაამატეთ პროდუქტები კალათაში</p>
+            <h3>{{ t('emptyCart') }}</h3>
+            <p class="text-muted mb-4">{{ t('addProducts') }}</p>
             <router-link to="/products" class="btn btn-primary btn-lg">
-                <i class="bi bi-arrow-left"></i> პროდუქციაზე დაბრუნება
+                <i class="bi bi-arrow-left"></i> {{ t('backToProducts') }}
             </router-link>
         </div>
 
@@ -49,29 +49,29 @@
             <div class="col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">შეკვეთის შინაარსი</h5>
+                        <h5 class="mb-0">{{ t('orderSummary') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3">
-                            <span>ქვეტოტალი:</span>
+                            <span>{{ t('subtotal') }}:</span>
                             <span class="fw-bold">{{ cartTotal.toFixed(2) }}₾</span>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <span>მიწოდება:</span>
-                            <span class="fw-bold">{{ deliveryPrice > 0 ? deliveryPrice.toFixed(2) + '₾' : 'უფასო' }}</span>
+                            <span>{{ t('delivery') }}:</span>
+                            <span class="fw-bold">{{ deliveryPrice > 0 ? deliveryPrice.toFixed(2) + '₾' : t('free') }}</span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between mb-4">
-                            <span class="fs-5 fw-bold">სულ:</span>
+                            <span class="fs-5 fw-bold">{{ t('total') }}:</span>
                             <span class="fs-5 fw-bold text-primary">{{ (cartTotal + deliveryPrice).toFixed(2) }}₾</span>
                         </div>
                         
                         <router-link to="/checkout" class="btn btn-primary btn-lg w-100 mb-2">
-                            <i class="bi bi-credit-card"></i> გადახდა
+                            <i class="bi bi-credit-card"></i> {{ t('checkout') }}
                         </router-link>
                         
                         <router-link to="/products" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-arrow-left"></i> შეძენის გაგრძელება
+                            <i class="bi bi-arrow-left"></i> {{ t('continueShopping') }}
                         </router-link>
                     </div>
                 </div>
@@ -83,10 +83,12 @@
 <script>
 import { computed } from 'vue';
 import { useCart } from '../composables/useCart';
+import { useI18n } from '../composables/useI18n';
 
 export default {
     name: 'Cart',
     setup() {
+        const { t } = useI18n();
         const { cart, updateQuantity, removeFromCart, cartTotal } = useCart();
 
         const deliveryPrice = computed(() => {
@@ -94,6 +96,7 @@ export default {
         });
 
         return {
+            t,
             cart,
             updateQuantity,
             removeFromCart,

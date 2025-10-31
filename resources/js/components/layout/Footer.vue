@@ -7,34 +7,33 @@
                         <i class="bi bi-shop"></i> Shop Monolit
                     </h5>
                     <p class="text-muted">
-                        თქვენი სანდო პარტნიორი ხარისხიანი პროდუქციისთვის. 
-                        ჩვენ ვთავაზობთ ყველაზე კარგ ფასებს და მომსახურებას.
+                        {{ t('footerDescription') }}
                     </p>
                 </div>
                 
                 <div class="col-md-2 mb-4 mb-md-0">
-                    <h6 class="fw-bold mb-3">მენიუ</h6>
+                    <h6 class="fw-bold mb-3">{{ t('menu') }}</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <router-link to="/" class="text-white-50 text-decoration-none">მთავარი</router-link>
+                            <router-link to="/" class="text-white-50 text-decoration-none">{{ t('home') }}</router-link>
                         </li>
                         <li class="mb-2">
-                            <router-link to="/products" class="text-white-50 text-decoration-none">პროდუქცია</router-link>
+                            <router-link to="/products" class="text-white-50 text-decoration-none">{{ t('products') }}</router-link>
                         </li>
                         <li class="mb-2">
-                            <router-link to="/about" class="text-white-50 text-decoration-none">ჩვენ შესახებ</router-link>
+                            <router-link to="/about" class="text-white-50 text-decoration-none">{{ t('about') }}</router-link>
                         </li>
                         <li class="mb-2">
-                            <router-link to="/contact" class="text-white-50 text-decoration-none">კონტაქტი</router-link>
+                            <router-link to="/contact" class="text-white-50 text-decoration-none">{{ t('contact') }}</router-link>
                         </li>
                     </ul>
                 </div>
                 
                 <div class="col-md-3 mb-4 mb-md-0">
-                    <h6 class="fw-bold mb-3">კონტაქტი</h6>
+                    <h6 class="fw-bold mb-3">{{ t('contact') }}</h6>
                     <ul class="list-unstyled text-white-50">
                         <li class="mb-2">
-                            <i class="bi bi-geo-alt"></i> თბილისი, საქართველო
+                            <i class="bi bi-geo-alt"></i> {{ t('tbilisiGeorgia') }}
                         </li>
                         <li class="mb-2">
                             <i class="bi bi-telephone"></i> +995 555 123 456
@@ -46,7 +45,7 @@
                 </div>
                 
                 <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">მიჰყევით ჩვენ</h6>
+                    <h6 class="fw-bold mb-3">{{ t('followUs') }}</h6>
                     <div class="d-flex gap-3">
                         <a href="#" class="text-white-50">
                             <i class="bi bi-facebook fs-4"></i>
@@ -65,7 +64,7 @@
             
             <div class="row">
                 <div class="col-md-12 text-center text-white-50">
-                    <p class="mb-0">&copy; {{ currentYear }} Shop Monolit. ყველა უფლება დაცულია.</p>
+                    <p class="mb-0">&copy; {{ currentYear }} Shop Monolit. {{ t('allRightsReserved') }}.</p>
                 </div>
             </div>
         </div>
@@ -73,11 +72,15 @@
 </template>
 
 <script>
+import { useI18n } from '../../composables/useI18n';
+
 export default {
     name: 'Footer',
     setup() {
+        const { t } = useI18n();
         const currentYear = new Date().getFullYear();
         return {
+            t,
             currentYear
         };
     }

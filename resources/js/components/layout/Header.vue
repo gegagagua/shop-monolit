@@ -5,20 +5,37 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <small><i class="bi bi-truck"></i> უფასო მიწოდება 150₾-ზე მეტ შეკვეთებზე</small>
+                        <small><i class="bi bi-truck"></i> {{ t('freeShipping') }}</small>
                     </div>
                     <div class="col-md-6 text-end">
+                        <div class="dropdown d-inline-block me-3">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-globe"></i> {{ currentLanguage === 'geo' ? 'ქართული' : 'English' }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#" :class="{ active: currentLanguage === 'geo' }" @click.prevent="setLanguage('geo')">
+                                        <i class="bi bi-check" v-if="currentLanguage === 'geo'"></i> ქართული
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" :class="{ active: currentLanguage === 'en' }" @click.prevent="setLanguage('en')">
+                                        <i class="bi bi-check" v-if="currentLanguage === 'en'"></i> English
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <router-link to="/login" class="text-white text-decoration-none me-3" v-if="!isLoggedIn">
-                            <i class="bi bi-box-arrow-in-right"></i> შესვლა
+                            <i class="bi bi-box-arrow-in-right"></i> {{ t('login') }}
                         </router-link>
                         <router-link to="/register" class="text-white text-decoration-none me-3" v-if="!isLoggedIn">
-                            <i class="bi bi-person-plus"></i> რეგისტრაცია
+                            <i class="bi bi-person-plus"></i> {{ t('register') }}
                         </router-link>
                         <span v-if="isLoggedIn" class="text-white me-3">
                             <i class="bi bi-person"></i> {{ userName }}
                         </span>
                         <button v-if="isLoggedIn" @click="logout" class="btn btn-sm btn-outline-light">
-                            გასვლა
+                            {{ t('logout') }}
                         </button>
                     </div>
                 </div>
@@ -39,7 +56,7 @@
                             v-model="searchQuery" 
                             type="text" 
                             class="form-control" 
-                            placeholder="მოსაძებნად მიუთითეთ პროდუქტის სახელი..."
+                            :placeholder="t('searchPlaceholder')"
                         >
                         <button type="submit" class="btn btn-primary ms-2">
                             <i class="bi bi-search"></i>
@@ -60,7 +77,7 @@
                                 v-model="searchQuery" 
                                 type="text" 
                                 class="form-control" 
-                                placeholder="ძიება..."
+                                :placeholder="t('search') + '...'"
                             >
                             <button type="submit" class="btn btn-primary ms-2">
                                 <i class="bi bi-search"></i>
@@ -70,22 +87,22 @@
 
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link" active-class="active">მთავარი</router-link>
+                            <router-link to="/" class="nav-link" active-class="active">{{ t('home') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/products" class="nav-link" active-class="active">პროდუქცია</router-link>
+                            <router-link to="/products" class="nav-link" active-class="active">{{ t('products') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/about" class="nav-link" active-class="active">ჩვენ შესახებ</router-link>
+                            <router-link to="/about" class="nav-link" active-class="active">{{ t('about') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/contact" class="nav-link" active-class="active">კონტაქტი</router-link>
+                            <router-link to="/contact" class="nav-link" active-class="active">{{ t('contact') }}</router-link>
                         </li>
                     </ul>
                     
                     <div class="d-flex align-items-center">
                         <router-link to="/cart" class="btn btn-outline-primary position-relative me-2">
-                            <i class="bi bi-cart3"></i> კალათა
+                            <i class="bi bi-cart3"></i> {{ t('cart') }}
                             <span v-if="cartItemCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {{ cartItemCount }}
                             </span>
@@ -100,11 +117,13 @@
 <script>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from '../../composables/useI18n';
 
 export default {
     name: 'Header',
     setup() {
         const router = useRouter();
+        const { t, setLanguage, currentLanguage } = useI18n();
         const isLoggedIn = ref(false);
         const userName = ref('');
         const cartItemCount = ref(0);
@@ -121,7 +140,8 @@ export default {
             const user = localStorage.getItem('user');
             if (user) {
                 isLoggedIn.value = true;
-                userName.value = JSON.parse(user).name || 'მომხმარებელი';
+                const userData = JSON.parse(user);
+                userName.value = userData.name || t('user');
             }
         };
 
@@ -166,6 +186,9 @@ export default {
         });
 
         return {
+            t,
+            setLanguage,
+            currentLanguage,
             isLoggedIn,
             userName,
             cartItemCount,
